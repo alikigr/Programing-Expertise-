@@ -1,0 +1,78 @@
+[Term]
+id: GO:0000041
+name: transition metal ion transport
+namespace: biological_process
+def: "The directed movement of transition metal ions into, out of or within a cell, or between cells, by means of some agent such as a transporter or pore. A transition metal is an element whose atom has an incomplete d-subshell of extranuclear electrons, or which gives rise to a cation or cations with an incomplete d-subshell. Transition metals often have more than one valency state. Biologically relevant transition metals include vanadium, manganese, iron, copper, cobalt, nickel, molybdenum and silver." [ISBN:0198506732]
+synonym: "transition metal transport" EXACT []
+is_a: GO:0030001 ! metal ion transport
+
+[Term]
+id: GO:0000044
+name: obsolete ascorbate stabilization
+namespace: biological_process
+def: "OBSOLETE. The reduction of the ascorbate free radical to a stable form." [GOC:ai, GOC:mtg_electron_transport]
+comment: This term was made obsolete because it is defined as a function term and is in the process ontology.
+synonym: "ascorbate stabilization" EXACT []
+synonym: "vitamin C stabilization" EXACT []
+is_obsolete: true
+
+[Term]
+id: GO:0000045
+name: autophagosome assembly
+namespace: biological_process
+def: "The formation of a double membrane-bounded structure, the autophagosome, that occurs when a specialized membrane sac, called the isolation membrane, starts to enclose a portion of the cytoplasm." [GOC:autophagy, PMID:9412464]
+synonym: "autophagic vacuole assembly" EXACT [GOC:autophagy]
+synonym: "autophagic vacuole formation" RELATED [GOC:mah]
+synonym: "autophagosome biosynthesis" EXACT []
+synonym: "autophagosome formation" EXACT []
+synonym: "PAS formation" NARROW []
+is_a: GO:0070925 ! organelle assembly
+is_a: GO:1905037 ! autophagosome organization
+
+[Term]
+id: GO:0000047
+name: obsolete Rieske iron-sulfur protein
+namespace: molecular_function
+def: "OBSOLETE. (Was not defined before being made obsolete)." [GOC:ai]
+comment: This term was made obsolete because it represents a gene product.
+synonym: "Rieske iron-sulfur protein" EXACT []
+synonym: "Rieske iron-sulphur protein" EXACT []
+is_obsolete: true
+consider: GO:0009055
+
+[Term]
+id: GO:0000048
+name: peptidyltransferase activity
+namespace: molecular_function
+def: "Catalysis of the reaction: peptidyl-tRNA(1) + aminoacyl-tRNA(2) = tRNA(1) + peptidylaminoacyl-tRNA(2)." [PMID:11433365, PMID:9242921]
+synonym: "peptidyl-tRNA:aminoacyl-tRNA N-peptidyltransferase activity" RELATED []
+xref: EC:2.3.2.12
+xref: MetaCyc:PEPTIDYLTRANSFERASE-RXN
+xref: Reactome:R-HSA-156912 "Peptide transfer from P-site tRNA to the A-site tRNA"
+is_a: GO:0016755 ! aminoacyltransferase activity
+
+[Term]
+id: GO:0000049
+name: tRNA binding
+namespace: molecular_function
+alt_id: GO:0000946
+def: "Binding to a transfer RNA." [GOC:ai]
+synonym: "base pairing with tRNA" NARROW []
+is_a: GO:0003723 ! RNA binding
+
+[Term]
+id: GO:0000050
+name: urea cycle
+namespace: biological_process
+alt_id: GO:0006594
+alt_id: GO:0006871
+def: "The sequence of reactions by which arginine is synthesized from ornithine, then cleaved to yield urea and regenerate ornithine. The overall reaction equation is NH3 + CO2 + aspartate + 3 ATP + 2 H2O = urea + fumarate + 2 ADP + 2 phosphate + AMP + diphosphate." [GOC:pde, GOC:vw, ISBN:0198506732]
+synonym: "ornithine cycle" EXACT []
+synonym: "urea biosynthesis" EXACT []
+synonym: "urea biosynthetic process" EXACT []
+xref: Wikipedia:Urea_cycle
+is_a: GO:0019627 ! urea metabolic process
+is_a: GO:0043604 ! amide biosynthetic process
+is_a: GO:1901566 ! organonitrogen compound biosynthetic process
+
+
