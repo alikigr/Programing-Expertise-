@@ -1,0 +1,35 @@
+std::string  Util::getInfo(std::string filename, std::string id){
+    //std::cout << "this is the  getEntry function" << std::endl;
+    std::ifstream infile;
+    infile.open(filename);
+
+    std::string line;
+    std::string entry = {};
+    bool flag = false;
+
+    std::string pattern = "^id: " + id;
+    std::regex rx(pattern);
+
+    //std:: regex EndEntry("\\[T.*\\]"); //match[Term] or [Typedef]
+    std:: regex EndEntry("^$"); //
+
+
+    while (std::getline(infile,line)) {
+        if (std::regex_search(line,rx)) {
+            //std::cout << "found " << line << "\n";
+            flag = true;
+        }
+
+        if(std::regex_search(line, EndEntry)) {
+
+            if (flag) {
+                break;
+            }
+        }
+
+        if (flag) {
+            entry = entry + line + "\n" ;
+        }
+    }
+    return(entry);
+}

@@ -1,0 +1,171 @@
+//xref: EC:3.4.19.
+//EC:2.4.1
+
+
+//g++ -std=c++17 -o task5 task5.cpp
+
+# include <iostream>
+# include <filesystem>
+# include <fstream>
+# include <regex>
+# include <map>
+
+
+
+class Util {
+
+public:
+    void test() {
+        std::cout << "This is a test" << std::endl;
+    }
+    std::string getInfo(std::string filename, std::string id);
+    std::map <std::string, std::string> searchEC(std::string filename, std::string id);
+
+private:
+    int x = 0;
+};
+
+
+std::string  Util::getInfo(std::string filename, std::string id) {
+    //std::cout << "this is the  getEntry function" << std::endl;
+    std::ifstream infile;
+    infile.open(filename);
+
+    std::string line;
+    std::string entry = {};
+    bool flag = false;
+
+    std::string pattern = "^id: " + id;
+    std::regex rx(pattern);
+
+    //std:: regex EndEntry("\\[T.*\\]"); //match[Term] or [Typedef]
+    std:: regex EndEntry("^$"); //
+
+
+    while (std::getline(infile,line)) {
+        if (std::regex_search(line,rx)) {
+            //std::cout << "found " << line << "\n";
+            flag = true;
+        }
+
+        if(std::regex_search(line, EndEntry)) {
+
+            if (flag) {
+                break;
+            }
+        }
+
+        if (flag) {
+            entry = entry + line + "\n" ;
+        }
+    }
+	infile.close();
+    return(entry);
+}
+
+std::map <std::string, std::string> Util::searchEC(std::string filename, std::string id) {
+    //std::cout << "this is the searchEC function" <<std::endl;
+    std::ifstream infile;
+    infile.open(filename);
+    std::string line;
+    //regex for go-id
+    std::regex rgoid("^id: ");
+    //regex
+    std::string pattern = "^xref: " + id;
+    std::regex rxref(pattern);
+    std::cout <<"xref to be searched" <<pattern <<std::endl;
+
+    std::regex rname("^name: ");
+    std:: regex EndEntry("^$");
+
+    std::string ids = "";
+    std::string names = "";
+    std::map <std::string, std::string> res = {};
+
+    bool flag = false;
+    while (std::getline(infile,line)) {
+
+        if (std::regex_search(line,rgoid)) {
+            ids = std::regex_replace(line, std::regex("id: "), "");
+        }
+
+        if (std::regex_search(line,rname)) {
+            names = std::regex_replace(line, std::regex("name: "), "");
+        }
+
+        if (std::regex_search(line,rxref)) {
+            flag = true;
+        }
+
+        if (flag && std::regex_search(line, EndEntry)) {
+            flag  = false;
+            res[ids] =    names;
+        }
+    }
+    infile.close();
+    return(res);
+}
+
+
+
+void usage (char * appname) {
+    std::cout << "This is a help message. Please use the app as indicated below." << std::endl;
+    std::cout << appname << " gene-ontology-file  taskname id" <<std::endl;
+    std::cout << "The available commands are:  searchEC, getInfo " <<std::endl;
+    std::cout << "In case that the getInfo function is called, the id should have the format: e.g. GO:0000003.\n" <<
+    "In the case of searchEC the format should be EC:2.4.1 or EC:2.4.1.123." <<std::endl;
+}
+
+
+int main(int argc, char **argv) {
+
+
+    auto goutil = Util();
+    //goutil.test();
+
+    namespace fs = std::filesystem;
+
+    if (argc != 4) {
+        usage(argv[0]);
+
+    } else {
+
+        if (!fs::exists(argv[1])) {
+            std::cout << "Error: File " << argv[1] << " does not exists!\n";
+            exit(1);
+        }
+       if (cmd != "searchEC" && cmd != "getInfo" )  {
+			std::cout << "See usage" <<std::endl;
+			exit(1);
+			}
+
+        std::string cmd = std::string(argv[2]);
+        std::string id = std::string(argv[3]) ;
+
+        if (cmd == "searchEC") {
+			//std::cout << "This is the searchEC cmd "<< "\n";
+            if ( !(std::regex_match(id, std::regex("EC:\\d{1}\\.\\d{1}\\.\\d{1}\\.*\\d*")))) {
+                std::cout << "Given EC-id is not valid. "<< "\n";
+                exit(1);
+            }
+            else {
+                auto res = goutil.searchEC(argv[1],argv[3]) ;
+                for (std::pair<std::string, std::string> t:res) {
+                    std::cout << t.first << "\t" << t.second <<std::endl;
+                }
+            }
+        }
+        if (cmd == "getInfo") {
+			//std::cout << "This is the getInfo cmd "<< "\n";
+            if (!std::regex_match(id,std::regex("GO:[0-9]{7}"))) {
+                std::cout << "Given GO-id is not valid. "<< "\n";
+                exit(1);
+            }
+            else {
+                std::string res = goutil.getInfo(argv[1],argv[3]);
+                std::cout << res <<  std::endl;
+            }
+        }
+    }
+    return 0;
+}
