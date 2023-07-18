@@ -16,6 +16,7 @@ int addition() {
 	cin >> answer ;
 	if (answer == sum){
 		cout << "correct" << endl;
+		cout << "correct - message - 2" << endl;
 		count = 1;
 	} else {
 		cout << "incorrect" << endl;
